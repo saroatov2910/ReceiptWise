@@ -21,6 +21,7 @@ python-dotenv==1.2.3
 anthropic==1.2.0
 pillow==12.3.0
 pytesseract==0.3.13
+fpdf2==2.8.7
 
 # AWS
 boto3==1.43.65
