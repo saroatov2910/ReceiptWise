@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:16
+    container_name: receiptwise_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: receiptwise
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backEnd
+      dockerfile: Dockerfile
+    container_name: receiptwise_backend
+    restart: always
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backEnd/.env
+    depends_on:
+      - db
+    volumes:
+      - ./backEnd:/app
+
+  frontend:
+    build:
+      context: ./Client
+      dockerfile: Dockerfile
+    container_name: receiptwise_frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+
